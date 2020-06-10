@@ -46,7 +46,7 @@ include 'db.php';
         $userInfo = mysqli_query($db, $sql);
 
         while ($row = mysqli_fetch_assoc($userInfo)) {
-
+            $id = $row['ID'];
             $fname = $row['firstname'];
             $lname = $row['lastname'];
             $uname = $row['username'];
@@ -79,7 +79,8 @@ include 'db.php';
             <input type="text" name="phone" class="form-control" placeholder="Phone" value="<?php echo $phone ?>">
         </div>
         <div class="form-group">
-            <input type="submit" name="submit" class="btn btn-success" value="Update" value="<?php echo $joinDate ?>">
+            <input type="hidden" name="userID" value="<?php echo $id; ?>">
+            <input type="submit" name="submit" class="btn btn-success" value="Update">
         </div>
 
 
@@ -88,6 +89,28 @@ include 'db.php';
 
         }
     } ?>
+
+    <?php
+    if (isset($_POST['submit'])) {
+        $userID = $_POST['userID'];
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $uname = $_POST['uname'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+
+        $sql = "UPDATE users SET firstname='$fname', lastname='$lname', username='$uname', email='$email', phone='$phone' WHERE ID = '$userID'";
+
+        $updateInfo = mysqli_query($db, $sql);
+
+        if ($updateInfo) {
+            header("Location: viewUsers.php");
+        } else {
+            die("Connection Error" . mysqli_error($db));
+        }
+    }
+
+    ?>
 
 </body>
 
