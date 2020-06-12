@@ -42,6 +42,12 @@ if (isset($_POST['submit'])) {
     $query = "INSERT INTO users(firstname, lastname, username, password, email, phone, join_date) values('$fname', '$lname', '$uname', '$hashedPass', '$email', '$phone', now())";
 
     $sql = mysqli_query($db, $query);
+
+    if ($sql) {
+        header("Location: viewUsers.php");
+    } else {
+        echo "Connection Error";
+    }
 }
 
 ?>
